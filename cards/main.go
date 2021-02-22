@@ -6,11 +6,15 @@ import (
 )
 
 func main() {
+
+	// TODO ADD CLI PARAM for load game or new game
+
 	currentDeckLocation := "currentDeck"
 	currentHandLocation := "currentHand"
 
 	// Initialize deck
-	cards := newDeck()
+	//cards := newDeck()
+	cards := newDeckFromFile("currentDeck")
 	log.Println("[INFO] Full deck size: ", len(cards))
 
 	// Hand dealing
