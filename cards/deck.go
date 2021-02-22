@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
+	"log"
 	"math/rand"
 	"strings"
 	"time"
@@ -10,6 +11,10 @@ import (
 // A deck is represented by a slice of strings
 // Here we create a new type that "extends" the slice of strings
 type deck []string
+
+/////////////////////////////
+// Deck receiver functions //
+////////////////////////////
 
 // Constructor of a deck
 func newDeck() deck {
@@ -31,20 +36,45 @@ func newDeck() deck {
 // Prints the full deck
 func (d deck) print() {
 	for _, card := range d {
-		fmt.Println(card)
+		log.Println(card)
 	}
 }
 
 //Returns a hand from the deck and remove them from the original deck
-func deal(dp *deck, handSize int) deck {
-	d := *dp
-	deckSize := len(d)
+func (d *deck) deal(handSize int) deck {
+	deckValue := *d
+	deckSize := len(deckValue)
 	rand.Seed(time.Now().UnixNano())
 	minDealingHandPosition := 1 + rand.Intn(deckSize-1)
 	maxDealingHandPosition := minDealingHandPosition + handSize
-	dealDeck := d[minDealingHandPosition:maxDealingHandPosition]
-	firstDeckHalf := d[:minDealingHandPosition]
-	secondDeckHalf := d[maxDealingHandPosition:]
-	*dp = append(firstDeckHalf, secondDeckHalf...)
+	dealDeck := deckValue[minDealingHandPosition:maxDealingHandPosition]
+	firstDeckHalf := deckValue[:minDealingHandPosition]
+	secondDeckHalf := deckValue[maxDealingHandPosition:]
+	*d = append(firstDeckHalf, secondDeckHalf...)
 	return dealDeck
+}
+
+/////////////////////////
+// Auxiliary functions //
+/////////////////////////
+
+// String representation of a deck
+func (d deck) toString() string {
+	return strings.Join([]string(d), ",")
+}
+
+// Saves the current deck into a file.
+func (d deck) saveToFile(fileName string) bool {
+	deckBytes := d.toBytesSlice()
+	err := ioutil.WriteFile(fileName, deckBytes, 0666)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+}
+
+// Converts a deck into a byte slice
+func (d deck) toBytesSlice() []byte {
+	return []byte(d.toString())
 }

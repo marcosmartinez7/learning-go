@@ -1,18 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"strconv"
+)
 
 func main() {
+	currentGameLocation := "currentGame"
 	// Initialize deck
 	cards := newDeck()
-	fmt.Println("[INFO] Full deck size: ", len(cards))
+	log.Println("[INFO] Full deck size: ", len(cards))
 
 	// Hand dealing
-	fmt.Println("[INFO] Dealing cards: ")
-	dealingCards := deal(&cards, 2)
+	log.Println("[INFO] Dealing cards: ")
+	dealingCards := cards.deal(2)
 	dealingCards.print()
-	fmt.Println("")
-	fmt.Println("[INFO] Current deck ")
+	log.Println("[INFO] Current deck ")
 	cards.print()
-	fmt.Println("[INFO]  Current deck size", len(cards))
+	log.Println("[INFO] Current deck size", len(cards))
+
+	// Save current game to file
+	log.Println("[INFO] Saving to file: " + currentGameLocation)
+	gameSaved := cards.saveToFile(currentGameLocation)
+	log.Println("[INFO] Game saved: " + strconv.FormatBool(gameSaved))
+
 }
