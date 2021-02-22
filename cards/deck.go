@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -66,6 +67,17 @@ func newDeckFromFile(filename string) (deck, error) {
 	return byteSliceToDeck(content), nil
 }
 
+// Shuffles the deck. This functions implements the Fisher–Yates shuffle algorithm
+func (d *deck) shuffle() {
+	for i := len(*d) - 1; i > 0; i-- {
+		fmt.Println("thge i", i)
+		j := getRandomNumber(i)
+		aux := (*d)[i]
+		(*d)[i] = (*d)[j]
+		(*d)[j] = aux
+	}
+}
+
 /////////////////////////
 // Auxiliary functions //
 /////////////////////////
@@ -89,7 +101,7 @@ func byteSliceToDeck(deckBytes []byte) deck {
 // Gets a random int between 0 and maxValue
 func getRandomNumber(maxValue int) int {
 	rand.Seed(time.Now().UnixNano())
-	return 1 + rand.Intn(maxValue-1)
+	return rand.Intn(maxValue)
 }
 
 // Constant-like function that returns the suits and values of a deck

@@ -24,6 +24,13 @@ func main() {
 	}
 
 	log.Println("[INFO] Full deck size: ", len(cards))
+	log.Println("[INFO] Starting deck")
+	cards.print()
+
+	// Shuffle
+	cards.shuffle()
+	log.Println("[INFO] Shuffled deck")
+	cards.print()
 
 	// Hand dealing
 	log.Println("[INFO] Dealing cards: ")
