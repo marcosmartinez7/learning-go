@@ -52,24 +52,18 @@ func (d *deck) deal(handSize int) deck {
 }
 
 // Saves the current deck into a file.
-func (d deck) saveToFile(fileName string) bool {
+func (d deck) saveToFile(fileName string) error {
 	deckBytes := d.toBytesSlice()
-	err := ioutil.WriteFile(fileName, deckBytes, 0666)
-	if err != nil {
-		log.Fatal(err)
-		return false
-	}
-	return true
+	return ioutil.WriteFile(fileName, deckBytes, 0666)
 }
 
 // Restrores the current deck from a file
-func newDeckFromFile(filename string) deck {
+func newDeckFromFile(filename string) (deck, error) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Fatal(err)
-		return nil
+		return nil, err
 	}
-	return byteSliceToDeck(content)
+	return byteSliceToDeck(content), nil
 }
 
 /////////////////////////
@@ -98,6 +92,7 @@ func getRandomNumber(maxValue int) int {
 	return 1 + rand.Intn(maxValue-1)
 }
 
+// Constant-like function that returns the suits and values of a deck
 func getSuitsAndValues() ([]string, []string) {
 	cardSuits := []string{"Diamonds", "Hearths", "Spades", "Clubs"}
 	cardValues := []string{"Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"}

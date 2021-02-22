@@ -1,20 +1,28 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"strconv"
 )
 
 func main() {
 
-	// TODO ADD CLI PARAM for load game or new game
+	load := flag.Bool("load", false, "load game")
+	flag.Parse()
+	log.Println(*load)
 
 	currentDeckLocation := "currentDeck"
 	currentHandLocation := "currentHand"
 
 	// Initialize deck
-	//cards := newDeck()
-	cards := newDeckFromFile("currentDeck")
+	var cards deck
+	if *load {
+		cards, _ = newDeckFromFile("currentDeck")
+
+	} else {
+		cards = newDeck()
+	}
+
 	log.Println("[INFO] Full deck size: ", len(cards))
 
 	// Hand dealing
@@ -27,12 +35,10 @@ func main() {
 
 	// Save current game deck to file
 	log.Println("[INFO] Saving current deck to file: " + currentDeckLocation)
-	currentDeckSaved := cards.saveToFile(currentDeckLocation)
-	log.Println("[INFO] Current deck saved: " + strconv.FormatBool(currentDeckSaved))
+	cards.saveToFile(currentDeckLocation)
 
 	// Save current hand to file
 	log.Println("[INFO] Saving current hand to file: " + currentHandLocation)
-	currentHandSaved := currentHand.saveToFile(currentHandLocation)
-	log.Println("[INFO] Current hand saved: " + strconv.FormatBool(currentHandSaved))
+	currentHand.saveToFile(currentHandLocation)
 
 }
