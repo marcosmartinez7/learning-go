@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -70,11 +69,8 @@ func newDeckFromFile(filename string) (deck, error) {
 // Shuffles the deck. This functions implements the Fisher–Yates shuffle algorithm
 func (d *deck) shuffle() {
 	for i := len(*d) - 1; i > 0; i-- {
-		fmt.Println("thge i", i)
 		j := getRandomNumber(i)
-		aux := (*d)[i]
-		(*d)[i] = (*d)[j]
-		(*d)[j] = aux
+		(*d)[i], (*d)[j] = (*d)[j], (*d)[i]
 	}
 }
 
