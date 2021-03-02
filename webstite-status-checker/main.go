@@ -1,20 +1,44 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"strconv"
+	"time"
+)
 
 func main() {
-	c := make(chan string)
-
-	for i := 0; i < 4; i++ {
-		go printString("Hello there!", c)
+	links := []string{
+		"http://bitcoin.org",
+		"http://google.com",
+		"http://stackoverflow.com",
+		"http://facebook.com",
 	}
 
-	for {
-		fmt.Println(<-c)
+	c := make(chan string) // create channel
+
+	for _, link := range links {
+		go printStatus(link, c) // create subroutine
 	}
+
+	for l := range c { // blocking call
+		go func(l string, c chan string) {
+			time.Sleep(time.Second * 5)
+			printStatus(l, c)
+		}(l, c)
+	}
+
 }
 
-func printString(s string, c chan string) {
-	fmt.Println(s)
-	c <- "Done printing."
+func isLinkOnline(link string) bool {
+	_, error := http.Get(link)
+	if error != nil {
+		return false
+	}
+	return true
+}
+
+func printStatus(link string, c chan string) {
+	fmt.Printf("Is %s responding? %s \n", link, strconv.FormatBool(isLinkOnline(link)))
+	c <- link
 }
