@@ -23,7 +23,7 @@ Prerequisites:
 2. `go run main.go`
 
 
-### Build and Linux instalation
+### Build and Linux installation
 
 1. `go build`
 2. `sudo cp crypto-price-monitor /usr/local/bin`
