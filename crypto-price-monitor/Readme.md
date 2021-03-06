@@ -16,8 +16,11 @@ Prerequisites:
 1. `gedit crypto-price-monitor.env` and set:
 
 `TO`: the receiver of the email
+
 `FROM`: your gmail account
+
 `PASSWORD`: the senders password (please use a fake gmail account, not your personal one)
+
 `ALERT_PRICE`: A float value that represents the amount that you want to receive a notification
 
 2. `go run main.go`
