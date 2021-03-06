@@ -39,7 +39,7 @@ Prerequisites:
 ```
 
     [Unit]
-    Description=Tests systemd to daemonize a Go binary
+    Description=Crypto price monitor
     Wants=network.target
     After=network.target
 
