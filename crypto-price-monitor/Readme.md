@@ -1,5 +1,5 @@
 
-## Crypto-price-monitor
+# Crypto-price-monitor
 
 Crypto Price Monitor is a golang cronjob that: 
 
