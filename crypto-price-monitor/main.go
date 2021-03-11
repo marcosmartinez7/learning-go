@@ -68,7 +68,6 @@ func GetTicker() (string, error) {
 	if err != nil {
 		return "error", err
 	}
-	fmt.Println("123123123  asda")
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
